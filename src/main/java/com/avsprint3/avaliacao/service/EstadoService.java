@@ -1,12 +1,15 @@
 package com.avsprint3.avaliacao.service;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Optional;
 
-import com.avsprint3.avaliacao.repository.EstadoRepository;
+import com.avsprint3.avaliacao.model.Estado;
 
-@Service
-public class EstadoService {
+public interface EstadoService {
 
-	
-	
+	public abstract void adicionarEstado(Estado estado);
+	public abstract void atualizarEstado(Long id, Estado estado);
+	public abstract void removerEstado(Long id);
+	public abstract List<Estado> listarEstados();
+	public Optional<Estado> detalharEstado(Long id);
 }

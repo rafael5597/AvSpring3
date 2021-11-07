@@ -1,5 +1,9 @@
 package com.avsprint3.avaliacao.controller;
 
+import java.util.Collection;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,34 +15,42 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.avsprint3.avaliacao.dto.AdicionarEstadoDTO;
 import com.avsprint3.avaliacao.model.Estado;
+import com.avsprint3.avaliacao.service.EstadoService;
 
 @RestController
 @RequestMapping("/api/states")
 public class EstadoController {
+	
+	@Autowired
+	private EstadoService estadoService;
 
 	@PostMapping
-	public String adicionar(@RequestBody Estado estado) {
-		return "OK, adicionar"; 
+	public ResponseEntity<String> adicionar(@RequestBody AdicionarEstadoDTO adicionarEstadoDto) {
+		estadoService.adicionarEstado(adicionarEstadoDto.converter());
+		return new ResponseEntity<String>("Estado adicionado.", HttpStatus.CREATED); 
 	}
 	
 	@GetMapping
-	public String listar() {
-		return "OK, atualizar...";
+	public Collection<Estado> listar() {
+		return estadoService.listarEstados();
 	}
 	
 	@GetMapping("/{id}")
-	public String detalhar(@PathVariable Long id) {
-		return "OK, detalhar " + id;
+	public Optional<Estado> detalhar(@PathVariable Long id) {
+		return estadoService.detalharEstado(id);
 	}
 	
 	@PutMapping("/{id}")
-	public String atualizar(@RequestBody Estado estado) {
-		return "OK, atualizar " + estado.getNome();
+	public ResponseEntity<String> atualizar(@PathVariable Long id,@RequestBody Estado estado) {
+		estadoService.atualizarEstado(id, estado);
+		return new ResponseEntity<String>("Estado atualizado.", HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")
-	public String remover(@PathVariable Long id) {
-		return "OK, remover " + id;
+	public ResponseEntity<String> remover(@PathVariable Long id) {
+		estadoService.removerEstado(id);
+		return new ResponseEntity<String>("Estado atualizado.", HttpStatus.OK);
 	}
 }
