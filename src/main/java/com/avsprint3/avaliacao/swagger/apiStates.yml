@@ -76,11 +76,32 @@ paths:
         description: ID numérico para atualizar um estado.
       responses:
         200:
-          description: Sucesso
+          description: "Sucesso"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/States"
+                type: string
+        404:
+          description: Estado não encontrado
+          content:
+            application/json:
+              example: "Não encontrado"
+    delete:
+      summary: Remove um estado
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: ID numérico para remover um estado.
+      responses:
+        200:
+          description: "Sucesso"
+          content:
+            application/json:
+              schema:
+                type: string
         404:
           description: Estado não encontrado
           content:
