@@ -1,0 +1,121 @@
+openapi: 3.0.1
+info:
+  title: API Estados Brasileiros (avaliação sprint 3)
+  description: API para gerenciar informações sobre os estados brasileiros.
+  version: 0.0.1
+  contact:
+    name: Suporte
+    email: rafael55997@hotmail.com
+    url: https://meusite.com
+  license:
+    name: "Lincença: GPLv3"
+    url: https://www.gnu.org/licenses/gpl-3.0.html
+servers:
+- url: http://localhost:8080/api
+  description: Servidor de teste da API
+paths:
+  /states:
+    get:
+      summary: Retorna todos os estados cadastrados
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/States"
+    post:
+      summary: Cria um novo estado
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/State"
+      responses:
+        201:
+          description: "Sucesso"
+          content:
+            type:
+              schema:
+                type: string
+  /states/{id}:
+    get:
+      summary: Recupera um estado pelo ID
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: ID numérico para recuperar um estado.
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/States"
+        404:
+          description: Estado não encontrado
+          content:
+            application/json:
+              example: "Não encontrado"
+    put:
+      summary: Atualiza os dados de um estado
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/State"
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: ID numérico para atualizar um estado.
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/States"
+        404:
+          description: Estado não encontrado
+          content:
+            application/json:
+              example: "Não encontrado"
+components:
+  schemas:
+    States:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+          nome:
+            type: string
+          regiao:
+            type: string
+          populacao:
+            type: integer
+          capital:
+            type: string
+          area:
+            type: number
+    State:
+      type: object
+      properties:
+        nome:
+          type: string
+        regiao:
+          type: string
+        populacao:
+          type: integer
+        capital:
+          type: string
+        area:
+          type: number
+        

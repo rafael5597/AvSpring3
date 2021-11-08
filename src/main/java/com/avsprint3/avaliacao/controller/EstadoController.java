@@ -3,9 +3,12 @@ package com.avsprint3.avaliacao.controller;
 import java.util.Collection;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,10 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.avsprint3.avaliacao.dto.AdicionarEstadoDTO;
+import com.avsprint3.avaliacao.form.EstadoForm;
 import com.avsprint3.avaliacao.model.Estado;
 import com.avsprint3.avaliacao.service.EstadoService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/states")
 public class EstadoController {
@@ -27,8 +31,8 @@ public class EstadoController {
 	private EstadoService estadoService;
 
 	@PostMapping
-	public ResponseEntity<String> adicionar(@RequestBody AdicionarEstadoDTO adicionarEstadoDto) {
-		estadoService.adicionarEstado(adicionarEstadoDto.converter());
+	public ResponseEntity<String> adicionar(@RequestBody @Valid EstadoForm form) {
+		estadoService.adicionarEstado(form);
 		return new ResponseEntity<String>("Estado adicionado.", HttpStatus.CREATED); 
 	}
 	
